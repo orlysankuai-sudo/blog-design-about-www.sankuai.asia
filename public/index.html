@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DICK | SanGuai Inc.</title>
+    <link rel="icon" type="image/x-icon" href="/assets/img/sanguai.jpg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"></script>
+
+    <style>
+        .hero-title .first-letter { color: #003153 !important; font-weight: bold; }
+        .hero-title .rest-letters { font-size: 0.78em !important; opacity: 0.95; display: inline-block; margin-right: 12px; }
+        .hero-title .rest-letters:last-child { margin-right: 0; }
+        .site-footer { margin-top: 80px; padding: 40px 24px; border-top: 1px solid var(--border-color); background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: background-color 0.6s ease, border-color 0.6s ease; }
+        .footer-container { max-width: 1200px; margin: 0 auto; }
+        .footer-copyright { font-size: 0.9rem; color: var(--text-main); font-weight: 500; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .footer-subtext { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <div id="onboarding" class="onboarding-overlay glass-nav">
+        <div id="ob-disclaimer" class="ob-section">
+            <h2 class="art-font ob-title" style="font-size: 2rem;">Legal Notice</h2>
+            <p class="ob-subtitle">Connection Policy</p>
+            <div class="ob-disclaimer-box glass-card">
+                Please note that the content of this website is subject to the laws and regulations of Mainland China.<br>
+                Consequently, certain content has been removed for users within the Mainland China region.<br>
+                <span class="spoiler">This can be resolved by using a network proxy or VPN.</span>
+                <br><br>
+                This website stores cookies locally on your device. The server does not retain any user information.<br>
+            </div>
+            <button class="ob-btn" onclick="app.acceptDisclaimer()">Understood</button>
+        </div>
+        <div id="ob-setup" class="ob-section">
+            <h2 class="art-font ob-title">DICK. Network</h2>
+            <p class="ob-subtitle">Initialize your connection</p>
+            <div class="ob-form">
+                <div class="ob-input-wrapper">
+                    <label>Content Language</label>
+                    <select id="ob-lang">
+                        <option value="zh-TW">繁體中文 (Traditional)</option>
+                        <option value="zh-CN">简体中文 (Simplified)</option>
+                    </select>
+                </div>
+                <div class="ob-input-wrapper">
+                    <label>Identifier</label>
+                    <input type="text" id="ob-username" placeholder="Enter your alias..." autocomplete="off">
+                </div>
+                <button class="ob-btn" onclick="app.submitOnboarding()">Engage</button>
+            </div>
+        </div>
+        <div id="ob-welcome" class="ob-section">
+            <h2 class="art-font ob-title" id="ob-welcome-text">Welcome back</h2>
+        </div>
+        <div id="ob-loading" class="ob-section">
+            <div class="ob-spinner"></div>
+            <p class="ob-subtitle" id="ob-loading-text">Loading...</p>
+        </div>
+    </div>
+
+    <div id="nsfw-modal" class="onboarding-overlay glass-nav hide">
+        <div class="greek-bg"><span class="g1">α</span><span class="g2">β</span><span class="g3">γ</span><span class="g4">δ</span><span class="g5">ε</span><span class="g6">ζ</span><span class="g7">η</span><span class="g8">θ</span></div>
+        <div class="ob-section active" style="z-index: 10; padding: 40px; border-radius: 16px; background: var(--glass-bg); backdrop-filter: blur(25px); border: 1px solid var(--border-color); box-shadow: 0 20px 50px rgba(0,0,0,0.2);">
+            <div style="font-size: 3.5rem; color: #ff4757; margin-bottom: 1rem;">🚫</div>
+            <h2 class="art-font ob-title" style="font-size: 2rem; color: #ff4757; margin-bottom: 1.5rem;">Content Warning</h2>
+            <div class="ob-disclaimer-box" style="text-align: center; border: none; padding: 0; margin-bottom: 2rem; max-width: 400px;">
+                These articles may contain disturbing images and text, restricted to persons 18 years of age or older.<br><br>
+                They will be displayed upon agreement; if declined, they will no longer be shown.
+            </div>
+            <div style="display: flex; gap: 20px; justify-content: center;">
+                <button class="ob-btn" style="background: var(--text-muted); padding: 12px 30px;" onclick="app.declineNsfw()">Decline</button>
+                <button class="ob-btn" style="background: #ff4757; padding: 12px 30px;" onclick="app.agreeNsfw()">Agree</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="epic-intro" class="epic-intro hidden"><div id="intro-container"></div></div>
+    <div id="loader" class="loader-overlay glass hidden"><div class="spinner"></div></div>
+
+    <nav class="navbar glass-nav">
+        <div class="nav-container">
+            <div class="logo art-font" onclick="app.goHome()">DICK.</div>
+            <div class="nav-controls">
+                <div class="search-wrapper">
+                    <input type="text" id="searchInput" placeholder="Search" onfocus="this.placeholder='Search #tag / @author'" onblur="this.placeholder='Search'" onkeyup="if(event.key === 'Enter') app.handleSearch()">
+                </div>
+                <div class="more-menu-container" id="moreMenuContainer">
+                    <button class="more-btn" onclick="app.toggleMoreMenu(event)">More <span class="arrow">↓</span></button>
+                    <div class="dropdown-menu glass-card">
+                        <ul>
+                            <li style="--i:1"><a href="/planing.html">Planing</a></li>
+                            <li style="--i:2"><a href="/about.html">About us</a></li>
+                            <li style="--i:3"><a href="/friends.html">Friend link</a></li>
+                            <li style="--i:4"><a href="/developer.html">Docs</a></li>
+                            <li style="--i:5"><a href="/help.html">Help</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <button id="themeToggle" class="icon-btn" onclick="app.toggleTheme()">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        
+        <div id="dashboardView" class="view-section fade-enter">
+            <header class="hero text-center">
+                <h1 class="art-font hero-title">
+                    <span class="first-letter">D</span><span class="rest-letters">ata</span>
+                    <span class="first-letter">I</span><span class="rest-letters">nnovation</span>
+                    <span class="first-letter">C</span><span class="rest-letters">ode</span>
+                    <span class="first-letter">K</span><span class="rest-letters">nowledge</span>
+                </h1>
+                <p class="hero-subtitle"><br>If you have any questions, please check the "more-help" section or contact us.<br></p>
+            </header>
+
+            <div class="quote-carousel glass-card" id="quoteBox" onclick="app.openQuoteUrl()">
+                <div class="quote-content" id="quoteText">加載精神網路中...</div>
+            </div>
+
+            <div class="activity-section glass-card">
+                <h3 class="widget-title">Network Activity</h3>
+                <div class="activity-graph-wrapper">
+                    <div id="activityGraph" class="activity-graph"></div>
+                </div>
+            </div>
+
+            <div class="text-center" style="margin: 50px 0;">
+                <button class="ob-btn view-all-btn" onclick="app.goFeed()">查看全部博客 (View All Posts)</button>
+            </div>
+
+            <div class="explorer-section glass-card">
+                <h3 class="widget-title">Explore Archives</h3>
+                <div id="homeExplorer" class="file-tree"></div>
+            </div>
+        </div>
+
+        <div id="feedView" class="view-section hidden">
+            <button class="back-btn" onclick="app.goHome()">← Return to Dashboard</button>
+            <div class="grid-layout">
+                <div class="feed-column" id="postFeed"></div>
+                <aside class="sidebar-column feed-sidebar">
+                    <div class="widget glass-card">
+                        <h3 class="widget-title">All Articles (Filter)</h3>
+                        <div id="feedExplorer" class="file-tree"></div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+
+        <div id="postView" class="view-section hidden">
+            <button class="back-btn" onclick="app.goFeed()">← Return to Posts</button>
+            <div id="errorState" class="error-state hidden glass-card">
+                <img src="/assets/img/error-fox.svg" alt="Signal Lost" class="error-img" draggable="false" oncontextmenu="return false;">
+                <p class="error-text art-font">404<br><span class="error-subtext">UNABLE TO CONNECT, PLEASE TRY AGAIN</span></p>
+            </div>
+            
+            <div class="grid-layout" id="postGridLayout">
+                <article class="post-content-column glass-card" id="articleBody">
+                    <header class="post-header text-center" id="postHeader"></header>
+                    <div class="markdown-body" id="postContent"></div>
+                    <div id="postCopyright" class="post-copyright hidden"></div>
+                </article>
+                <aside class="sidebar-column post-sidebar">
+                    <div class="widget glass-card" id="tocWidget"><h3 class="widget-title">Contents</h3><nav id="tocList" class="toc-list"></nav></div>
+                    <div class="widget glass-card" id="nextPostWidget"><h3 class="widget-title">Next Read</h3><div id="nextPostLink"></div></div>
+                    <div class="widget glass-card"><h3 class="widget-title">Editor's Pick</h3><div id="dailyRecLink"></div></div>
+                </aside>
+            </div>
+        </div>
+
+        <div class="mobile-sort-container">
+            <div id="mobileDrawer" class="mobile-drawer glass-card">
+                <div id="mobileDrawerContent"></div>
+            </div>
+            <button id="mobileSortBtn" class="mobile-sort-btn" onclick="app.toggleMobileSidebar(event)">Sort</button>
+        </div>
+    </main>
+
+    <footer class="site-footer text-center">
+        <div class="footer-container">
+            <p class="footer-copyright">Copyright © 2026 SanGuai Inc. & SanGuai Culture Studio. All Rights Reserved.</p>
+            <p class="footer-subtext">Exploring the intersection of technology and creativity.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

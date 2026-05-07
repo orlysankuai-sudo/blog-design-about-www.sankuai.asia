@@ -1,0 +1,13 @@
+{
+  "name": "dick-blog-network",
+  "version": "1.0.0",
+  "description": "Data Innovation Code Knowledge",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "marked": "^12.0.1"
+  }
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friend Link | DICK Network</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/assets/img/sanguai.jpg">
+    <style>
+        .friends-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; margin-top: 40px; }
+        .friend-card { padding: 30px; text-decoration: none; color: inherit; display: block; transition: all 0.5s ease; border: 1px solid var(--border-color); }
+        .friend-card:hover { transform: scale(1.03); border-color: var(--text-main); background: var(--hover-bg); }
+        .friend-site { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 10px; }
+        .friend-desc { font-size: 0.85rem; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <nav class="navbar glass-nav">
+        <div class="nav-container"><div class="logo art-font" onclick="location.href='/'">DICK.</div></div>
+    </nav>
+    <main class="main-container">
+        <header class="hero text-center">
+            <h1 class="art-font hero-title">Friend Links</h1>
+            <p class="hero-subtitle">Meet the brilliant minds in our network.</p>
+        </header>
+        <div class="friends-grid">
+            <a href="https://example.com" class="friend-card glass-card">
+                <div class="friend-site">Example Blog</div>
+                <div class="friend-desc">範例網域</div>
+            </a>
+            
+        </div>
+    </main>
+</body>
+</html>

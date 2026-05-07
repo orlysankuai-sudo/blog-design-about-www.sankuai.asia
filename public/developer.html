@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Guide | DICK Network</title>
+    <link rel="icon" type="image/x-icon" href="/assets/img/sanguai.jpg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"></script>
+    
+    <style>
+        /* 專為開發者文檔微調的樣式 */
+        .dev-hero { margin-bottom: 40px; }
+        .code-preview-box {
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 30px;
+            background: var(--hover-bg);
+            overflow: hidden;
+        }
+        .markdown-body pre {
+            margin-top: 0;
+            border-radius: 0 0 8px 8px;
+        }
+        .code-header {
+            background: var(--text-main);
+            color: var(--bg-color);
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            font-family: monospace;
+            border-radius: 8px 8px 0 0;
+            display: inline-block;
+            margin-top: 2em;
+            letter-spacing: 1px;
+        }
+        .code-header + pre { margin-top: 0; }
+    </style>
+</head>
+<body>
+
+    <div id="onboarding" class="onboarding-overlay glass-nav">
+        <div id="ob-disclaimer" class="ob-section">
+            <h2 class="art-font ob-title" style="font-size: 2rem;">Legal Notice</h2>
+            <p class="ob-subtitle">Connection Policy</p>
+            <div class="ob-disclaimer-box glass-card">
+                Please note that the content of this website is subject to the laws and regulations of Mainland China.<br>
+                Consequently, certain content has been removed for users within the Mainland China region.<br>
+                <span class="spoiler">This can be resolved by using a network proxy or VPN.</span><br><br>
+                This website stores cookies locally on your device. The server does not retain any user information.
+            </div>
+            <button class="ob-btn" onclick="app.acceptDisclaimer()">Understood</button>
+        </div>
+
+        <div id="ob-setup" class="ob-section">
+            <h2 class="art-font ob-title">DICK. Network</h2>
+            <p class="ob-subtitle">Initialize your connection</p>
+            <div class="ob-form">
+                <div class="ob-input-wrapper">
+                    <label>Content Language</label>
+                    <select id="ob-lang">
+                        <option value="zh-TW">繁體中文 (Traditional)</option>
+                        <option value="zh-CN">简体中文 (Simplified)</option>
+                    </select>
+                </div>
+                <div class="ob-input-wrapper">
+                    <label>Identifier</label>
+                    <input type="text" id="ob-username" placeholder="Enter your alias..." autocomplete="off">
+                </div>
+                <button class="ob-btn" onclick="app.submitOnboarding()">Engage</button>
+            </div>
+        </div>
+
+        <div id="ob-welcome" class="ob-section">
+            <h2 class="art-font ob-title" id="ob-welcome-text">Welcome back</h2>
+        </div>
+
+        <div id="ob-loading" class="ob-section">
+            <div class="ob-spinner"></div>
+            <p class="ob-subtitle" id="ob-loading-text">Loading...</p>
+        </div>
+    </div>
+
+    <div id="loader" class="loader-overlay glass hidden">
+        <div class="spinner"></div>
+    </div>
+
+    <nav class="navbar glass-nav">
+        <div class="nav-container">
+            <div class="logo art-font" onclick="location.href='/'">DICK.</div>
+            <div class="nav-controls">
+                <div class="more-menu-container" id="moreMenuContainer">
+                    <button class="more-btn" onclick="app.toggleMoreMenu(event)">
+                        More <span class="arrow">↓</span>
+                    </button>
+                    <div class="dropdown-menu glass-card">
+                        <ul>
+                            <li style="--i:1"><a href="/">Return Home</a></li>
+                            <li style="--i:2"><a href="/planing.html">Planing</a></li>
+                            <li style="--i:3"><a href="/about.html">About us</a></li>
+                            <li style="--i:4"><a href="/friends.html">Friend link</a></li>
+                            <li style="--i:5"><a href="/help.html">Help</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <button id="themeToggle" class="icon-btn" onclick="app.toggleTheme()">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <div id="docView" class="view-section hidden fade-enter">
+            <header class="hero text-center dev-hero">
+                <h1 class="art-font hero-title">DICK. Developer Guide</h1>
+                <p class="hero-subtitle" id="dev-greeting">致開發者：<span id="dev-name" style="font-weight: bold; color: var(--text-main);"></span>，歡迎成爲創作者。</p>
+            </header>
+
+            <div class="grid-layout">
+                <article class="post-content-column glass-card" id="doc-content">
+                    <div class="markdown-body">
+                        
+                        <h2 id="ch1">1. 架構概述與環境配置</h2>
+                        <p>本站點的內容渲染基於 <code>Node.js</code> 與 <code>marked.js</code> 核心。所有的文章均由標準的 <code>.md</code> (Markdown) 文件編譯而來。我們對渲染引擎進行了深度定制，使其能夠解析專屬的 HTML 組件，從而實現玻璃擬物化 (Glassmorphism) 網頁美學與高階交互功能。</p>
+                        
+                        <div class="tip-box">
+                            <strong>推薦編輯器：</strong> 我們強烈建議使用 <strong>VS Code</strong> (配合 Markdown All in One 插件) 或 <strong>Typora</strong> 進行寫作，以確保源代碼的純淨度。儲存時請務必確保編碼格式為 <code>UTF-8</code>。
+                        </div>
+
+                        <h2 id="ch2">2. 全自動數據模塊與 Frontmatter</h2>
+                        <p>為了讓伺服器能正確抓取文章資訊並渲染至主頁（Dashboard）的時間線網格及檔案總管，你的 <code>.md</code> 文件最開頭必須遵循以下格式：</p>
+
+                        <div class="code-header">MARKDOWN</div>
+                        <pre><code class="language-markdown"># 這裡輸入你的文章大標題
+Author: 你的名字或組織名
+#Coding #Design #可添加多個標籤
+
+---
+（這裡開始寫正文，注意上方必須空一行）</code></pre>
+                        
+                        <h3>自動生成的板塊</h3>
+                        <ul>
+                            <li><strong>文章版權引用區塊：</strong> 系統會在每篇文章的最末尾，<strong>全自動</strong>生成帶有巨大 <code>CC</code> 圓圈浮水印、文章連結、發布日期與作者資訊的深色授權卡片。開發者無需在 Markdown 中手動寫入任何版權代碼。</li>
+                            <li><strong>活動網格圖與雙重側邊欄：</strong> 只要你打上了標籤 (Tags) 與作者 (Author)，系統就會自動將其歸類到首頁的「檔案總管」目錄中，並在網格時間線上點亮對應的活躍度。</li>
+                        </ul>
+
+                        <h2 id="ch3">3. 基礎排版：換行與首字下沉</h2>
+                        
+                        <h3>A. 自動換行邏輯 (Line Breaks)</h3>
+                        <p>本站採用了高級的 <code>white-space: pre-wrap;</code> 渲染策略，完全尊重你在編輯器中的輸入習慣：</p>
+                        <ul>
+                            <li><strong>小換行：</strong> 在源代碼中按一下 <code>Enter</code>，文字會緊湊地換到下一行（無段落間距）。</li>
+                            <li><strong>正常換行：</strong> 按兩下 <code>Enter</code>（中間空一行），會產生優雅的標準段落間距 (<code>0.8em</code>)。</li>
+                            <li><em>註：折疊框 <code>&lt;details&gt;</code> 與提示欄 <code>.tip-box</code> 內部已排除此規則，確保組件內部的佈局不被多餘換行撐破。</em></li>
+                        </ul>
+
+                        <h3>B. 史詩級首字下沉 (Drop Cap)</h3>
+                        <p>本站內建自動識別的出版級特效：<strong>任何標題 (<code>#</code> 到 <code>######</code>) 下方的「第一段正文的第一個字」將會自動變大！</strong></p>
+                        <ul>
+                            <li>高度自動佔據約兩行。</li>
+                            <li>中文字體自動使用「仿宋」，英文字體自動使用「花體 (Georgia/Cursive)」。</li>
+                            <li>標點符號會被自動忽略或跟隨放大。</li>
+                        </ul>
+
+                        <h2 id="ch4">4. 高級連結系統</h2>
+
+                        <h3>A. 牛逼鏈接 (Magic Link)</h3>
+                        <p>這是一種極具蘋果官網風格的連結。沒有下劃線，懸停時會彈出帶有物理阻尼動畫的「毛玻璃」小視窗，顯示完整的 URL 與所屬方。極大提升文章的專業度。</p>
+                        <div class="code-header">HTML</div>
+                        <pre><code class="language-html">&lt;a href="https://www.sankuai.asia" class="magic-link" data-owner="SanGuai Studio"&gt;DICK 官方網站&lt;/a&gt;</code></pre>
+                        <div class="code-preview-box">
+                            這是一個示範：請將鼠標移到 <a href="https://www.sankuai.asia" class="magic-link" data-owner="SanGuai Studio">DICK 官方網站</a> 上方查看效果。
+                        </div>
+
+                        <h3>B. 引用區的長鏈接浮窗</h3>
+                        <p>當一般的 Markdown 鏈接放置在 <code>&gt; 引用</code> 或 <code>&lt;details&gt;</code> 中時，為防止過長的網址撐破手機屏幕，網址會被自動單行截斷 (顯示 <code>...</code>)，鼠標懸停時才會以玻璃浮窗的形式展現完整網址。</p>
+
+                        <h2 id="ch5">5. 多功能狀態欄系統 (Status Box)</h2>
+                        <p>這是一套強大的語義化排版工具，能為你的內容賦予不同的顏色與符號標記。只需在 <code>div</code> 加入對應的 <code>class</code> 即可調用。圖標恆定為白色，不受黑夜模式干擾。</p>
+
+                        <div class="code-header">HTML</div>
+                        <pre><code class="language-html">&lt;div class="status-box box-topic"&gt;話題內容...&lt;/div&gt;</code></pre>
+
+                        <div class="code-preview-box">
+                            <div class="status-box box-topic"><code>box-topic</code> (#) 藍色 - 用於標記新的話題或主線。</div>
+                            <div class="status-box box-related"><code>box-related</code> (@) 青色 - 用於標記相關聯的資訊或人物。</div>
+                            <div class="status-box box-question"><code>box-question</code> (?) 橘黃色 - 用於提出疑問或引發思考。</div>
+                            <div class="status-box box-urgent"><code>box-urgent</code> (&) 洋紅色 - 用於極其相關或緊急的重點。</div>
+                            <div class="status-box box-done"><code>box-done</code> (☑︎) 翡翠綠 - 標記已完成的事項。</div>
+                            <div class="status-box box-right"><code>box-right</code> (✓) 鮮綠色 - 標記正確的邏輯或事實。</div>
+                            <div class="status-box box-wrong"><code>box-wrong</code> (✗) 鮮紅色 - 標記錯誤的邏輯或應避免的坑。</div>
+                            <div class="status-box box-dispute"><code>box-dispute</code> (⍻) 紫羅蘭色 - 標記存在爭議或未定論的觀點。</div>
+                            <div class="status-box box-view"><code>box-view</code> (𓂀) 金黃色 - 標記作者個人的深刻觀察或洞見。</div>
+                            <div class="status-box box-todo"><code>box-todo</code> (✎) 灰藍色 - 標記未完成或待補充的筆記。</div>
+                        </div>
+
+                        <h3>段落三兄弟 (排版專用)</h3>
+                        <p>採用沉穩的深灰色，適合用於標註文學性或特殊層級的段落：</p>
+                        <div class="code-preview-box">
+                            <div class="status-box box-para-sec"><code>box-para-sec</code> (§) - 適用於大塊內容區隔或引用法律條文。</div>
+                            <div class="status-box box-para-pil"><code>box-para-pil</code> (¶) - 適用於強調某個核心觀點或靈光一閃的總結。</div>
+                            <div class="status-box box-para-fle"><code>box-para-fle</code> (❡) - 適用於文學筆記、詩歌或軟性的情感轉場。</div>
+                        </div>
+
+                        <h2 id="ch6">6. DICK 基礎特效組件</h2>
+                        
+                        <h3>A. 吐槽與防劇透遮罩 (Spoiler)</h3>
+                        <div class="code-header">HTML</div>
+                        <pre><code class="language-html">&lt;span class="spoiler"&gt;這是一段被隱藏的文本&lt;/span&gt;</code></pre>
+                        <div class="code-preview-box">測試效果：<span class="spoiler">這是一段被隱藏的文本</span></div>
+
+                        <h3>B. 彩色流轉文字 (Rainbow)</h3>
+                        <div class="code-header">HTML</div>
+                        <pre><code class="language-html">&lt;span class="rainbow-text"&gt;Cyberpunk 2077&lt;/span&gt;</code></pre>
+                        <div class="code-preview-box">測試效果：<span class="rainbow-text">Cyberpunk 2077</span></div>
+
+                        <h3>C. 喵喵喵交互特效 (Meow Effect)</h3>
+                        <div class="code-header">HTML</div>
+                        <pre><code class="language-html">&lt;span class="meow-target"&gt;把鼠標移到我身上&lt;/span&gt;</code></pre>
+                        <div class="code-preview-box">測試效果：<span class="meow-target">把鼠標移到我身上</span></div>
+
+                        <h3>D. 優雅的折疊內容 (Collapsible)</h3>
+                        <div class="code-header">HTML</div>
+                        <pre><code class="language-html">&lt;details&gt;
+    &lt;summary&gt;點擊展開查看隱藏的配置代碼&lt;/summary&gt;
+    &lt;blockquote&gt;這是一段被折疊的引用內容。&lt;/blockquote&gt;
+&lt;/details&gt;</code></pre>
+                        <div class="code-preview-box">
+                            <details>
+                                <summary>點擊展開查看隱藏的配置代碼</summary>
+                                <blockquote>這是一段被折疊的引用內容。</blockquote>
+                            </details>
+                        </div>
+
+                        <h2 id="ch7">7. 地理圍欄與合規化 (Geofence)</h2>
+                        <p>若你的文章包含可能違反中國大陸法規的內容，請務必使用地理圍欄標籤。伺服器與客戶端腳本會雙重檢測 IP，對於來自 <code>CN</code> 的請求，該標籤下方的所有內容將被高斯模糊處理，並覆蓋上官方的告別信。</p>
+                        <div class="code-header">HTML</div>
+                        <pre><code class="language-html">&lt;!-- 將此標籤放置在需要隔離的內容的正上方 --&gt;
+&lt;div id="restricted-boundary"&gt;&lt;/div&gt;
+
+後面的文字、圖片都會被完全模糊化...</code></pre>
+
+                        <h2 id="ch8">8. 發布與 404 處理</h2>
+                        <p>完成你的 <code>.md</code> 文件後，直接將文件存入伺服器 <code>/posts</code> 目錄中即可。系統內建了高級 SPA 路由，若用戶輸入了錯誤的 <code>?id=</code> 參數，系統將會攔截錯誤並呈現 SANGUAI INC. 專屬企業級 404 頁面，隨後在 4 秒內自動將用戶安全送回 Dashboard。</p>
+                    </div>
+                </article>
+
+                <aside class="sidebar-column post-sidebar">
+                    <div class="widget glass-card" id="tocWidget">
+                        <h3 class="widget-title">章節導航</h3>
+                        <nav id="tocList" class="toc-list"></nav>
+                    </div>
+                </aside>
+            </div>
+        </div>
+
+        <div class="mobile-sort-container">
+            <div id="mobileDrawer" class="mobile-drawer glass-card">
+                <div id="mobileDrawerContent"></div>
+            </div>
+            <button id="mobileSortBtn" class="mobile-sort-btn" onclick="app.toggleMobileSidebar(event)">Sort</button>
+        </div>
+    </main>
+
+    <footer class="text-center" style="padding: 40px; color: var(--text-light); font-size: 0.8rem;">
+        &copy; 2026 DICK Network / SanGuai Inc. All Rights Reserved.
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="/js/app.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const originalFetch = app.fetchPosts;
+
+            app.fetchPosts = async function() {
+                const username = localStorage.getItem('dick_username') || '未命名實體';
+                const nameSpan = document.getElementById('dev-name');
+                if (nameSpan) nameSpan.innerText = username;
+
+                if (app.converter) {
+                    const docContent = document.getElementById('doc-content');
+                    const devGreeting = document.getElementById('dev-greeting');
+                    
+                    const walkDOM = (node) => {
+                        if (node.nodeType === 3) { 
+                            if (node.nodeValue.trim() !== '') {
+                                node.nodeValue = app.t(node.nodeValue);
+                            }
+                        } else if (node.nodeType === 1) { 
+                            const tag = node.nodeName.toUpperCase();
+                            if (tag !== 'SCRIPT' && tag !== 'STYLE' && tag !== 'CODE' && tag !== 'PRE') {
+                                for (let i = 0; i < node.childNodes.length; i++) {
+                                    walkDOM(node.childNodes[i]);
+                                }
+                            }
+                        }
+                    };
+                    walkDOM(docContent);
+                    if (devGreeting) walkDOM(devGreeting);
+                }
+
+                app.generateTableOfContents(document.getElementById('doc-content'));
+                if (window.Prism) Prism.highlightAll();
+
+                app.hideLoader();
+                const docView = document.getElementById('docView');
+                docView.classList.remove('hidden');
+                setTimeout(() => docView.classList.add('fade-enter-active'), 100);
+            };
+        });
+    </script>
+</body>
+</html>

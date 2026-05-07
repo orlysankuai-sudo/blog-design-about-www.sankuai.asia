@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide & FAQ | DICK Network</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .guide-content { max-width: 900px; margin: 0 auto; }
+        .code-example { background: #111; color: #eee; padding: 15px; border-radius: 8px; font-family: monospace; margin: 10px 0 20px 0; border: 1px solid #333; position: relative; }
+        .code-example::before { content: 'Markdown / HTML'; position: absolute; top: -10px; right: 10px; background: var(--text-main); color: var(--bg-color); font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; }
+        .demo-box { padding: 20px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 30px; background: var(--glass-bg); }
+        .faq-section { margin-top: 60px; border-top: 1px solid var(--border-color); padding-top: 40px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass-nav">
+        <div class="nav-container">
+            <div class="logo art-font" onclick="location.href='/'">DICK.</div>
+            <div class="nav-controls">
+                <button class="more-btn" onclick="location.href='/'">Return Home</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-container fade-enter-active">
+        <div class="guide-content">
+            <header class="hero text-center">
+                <h1 class="art-font hero-title">Writing Guide</h1>
+                <p class="hero-subtitle">Elevate your thoughts with our custom-tuned Markdown system.</p>
+            </header>
+
+            <article class="markdown-body glass-card" style="padding: 40px;">
+                <h2>1. 投稿方式</h2>
+                <p>如果你有想要分享的內容，歡迎將編寫好的 <code>.md</code> 文件發送至我們的官方郵箱：</p>
+                <div class="tip-box">
+                    <strong>Email:</strong> <a href="mailto:orly.sankuai@gmail.com">orly.sankuai@gmail.com</a>
+                </div>
+
+                <hr>
+
+                <h2>2. 基礎 Markdown 語法</h2>
+                <p>本站支持標準 Markdown，並針對字體權重進行了優化。</p>
+                
+                <h3>加粗與斜體</h3>
+                <div class="code-example">**這是加粗文字**<br>*這是斜體文字*</div>
+                <div class="demo-box">
+                    <strong>這是加粗文字</strong><br>
+                    <em>這是斜體文字</em>
+                </div>
+
+                <hr>
+
+                <h2>3. 高級自定義組件</h2>
+                <p>為了實現更牛逼的效果，你可以直接在文中嵌入以下 HTML 代碼。</p>
+
+                <h3>A. 提示欄 (Tip Box)</h3>
+                <div class="code-example">&lt;div class="tip-box"&gt;這是一個提示內容&lt;/div&gt;</div>
+                <div class="demo-box">
+                    <div class="tip-box">這是一個精緻的提示內容，帶有自動生成的感嘆號標誌。</div>
+                </div>
+
+                <h3>B. 吐槽內容 (Spoiler)</h3>
+                <div class="code-example">&lt;span class="spoiler"&gt;這是一段被蓋住的吐槽&lt;/span&gt;</div>
+                <div class="demo-box">
+                    請鼠標懸浮查看：<span class="spoiler">其實這是一段隱藏的數據塔密碼</span>
+                </div>
+
+                <h3>C. 彩色流轉文字 (Rainbow)</h3>
+                <div class="code-example">&lt;span class="rainbow-text"&gt;炫彩動態文字&lt;/span&gt;</div>
+                <div class="demo-box">
+                    <span class="rainbow-text">這段文字會不斷流轉顏色，充滿科技感。</span>
+                </div>
+
+                <h3>D. 喵喵喵特效 (Meow)</h3>
+                <div class="code-example">&lt;span class="meow-target"&gt;鼠標移過來&lt;/span&gt;</div>
+                <div class="demo-box">
+                    <span class="meow-target">試試看把鼠標移到這段文字上</span>
+                </div>
+
+                <h3>E. 反向文字與刪除線斜體</h3>
+                <div class="code-example">&lt;span class="reverse-text"&gt;反轉文字&lt;/span&gt;<br>&lt;span class="del-italic"&gt;刪除線斜體&lt;/span&gt;</div>
+                <div class="demo-box">
+                    <span class="reverse-text">這是一段左右反轉的文字</span><br>
+                    <span class="del-italic">這是一段帶有橫線且傾斜的過時筆記</span>
+                </div>
+
+                <h3>F. 地理限制邊界 (Geofence)</h3>
+                <p>在此標籤之後的內容將對中國大陸 IP 進行高斯模糊處理。</p>
+                <div class="code-example">&lt;div id="restricted-boundary"&gt;&lt;/div&gt;</div>
+
+                <hr>
+
+                <div class="faq-section">
+                    <h2 class="art-font" style="font-size: 2.2rem;">FAQ / 常見問題</h2>
+                    
+                    <h3>Q: 為什麼我看不到文章內容，或者加載非常緩慢？</h3>
+                    <p><strong>A:</strong> 由於我們的數據存儲與部分 API 服務（如 IP 地理位置檢查）部署在海外伺服器，如果您在中國大陸地區訪問，可能會遇到網絡阻斷或連接不穩定的情況。建議您<strong>使用 VPN 或代理工具</strong>後再次嘗試刷新頁面。</p>
+
+                    <h3>Q: 為什麼有些文字在鼠標移上去後消失了？</h3>
+                    <p><strong>A:</strong> 那是因為作者使用了「喵喵喵」特效標籤。這是一個充滿童心的交互設計，文字會合體成一個「喵」字並拋出屏幕。</p>
+
+                    <h3>Q: 我可以提交繁體還是簡體文章？</h3>
+                    <p><strong>A:</strong> 兩者皆可。我們的系統內置了 OpenCC 轉換引擎，用戶可以根據喜好隨時切換繁體與簡體，系統會自動處理文章的實時翻譯。</p>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer class="text-center" style="padding: 40px; color: var(--text-light); font-size: 0.8rem;">
+        &copy; 2026 DICK Network / SanGuai Inc. All Rights Reserved.
+    </footer>
+
+</body>
+</html>

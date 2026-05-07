@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planing | DICK Network</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/assets/img/sanguai.jpg">
+    <style>
+        .timeline { position: relative; max-width: 800px; margin: 40px auto; padding-left: 40px; }
+        .timeline::before { content: ''; position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: var(--border-color); }
+        .plan-item { position: relative; margin-bottom: 60px; opacity: 0; transform: translateX(-20px); transition: all 0.8s ease; }
+        .plan-item.active { opacity: 1; transform: translateX(0); }
+        .plan-item::after { content: ''; position: absolute; left: -45px; top: 10px; width: 10px; height: 10px; border-radius: 50%; background: var(--text-main); border: 4px solid var(--bg-color); }
+        .plan-date { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--text-muted); margin-bottom: 10px; }
+        .plan-card { padding: 30px; }
+        .plan-card h3 { margin-bottom: 15px; font-weight: 600; }
+        .status-badge { display: inline-block; font-size: 0.7rem; padding: 2px 8px; border: 1px solid var(--text-light); border-radius: 4px; margin-left: 10px; vertical-align: middle; }
+    </style>
+</head>
+<body>
+    <nav class="navbar glass-nav">
+        <div class="nav-container"><div class="logo art-font" onclick="location.href='/'">DICK.</div></div>
+    </nav>
+    <main class="main-container">
+        <header class="hero text-center">
+            <h1 class="art-font hero-title">Future Planing</h1>
+            <p class="hero-subtitle">The roadmap of our digital evolution.</p>
+        </header>
+        <div class="timeline">
+            <div class="plan-item" style="transition-delay: 0.2s;">
+                <div class="plan-date">2026 Q2</div>
+                <div class="plan-card glass-card">
+                    <h3>System Architecture Expansion <span class="status-badge">Processing</span></h3>
+                    <p>優化 Node.js 核心渲染引擎，支持更複雜的元數據解析與多級目錄分類管理。</p>
+                </div>
+            </div>
+            <div class="plan-item" style="transition-delay: 0.4s;">
+                <div class="plan-date">2026 Q3</div>
+                <div class="plan-card glass-card">
+                    <h3>Visual Aesthetic Update <span class="status-badge">Pending</span></h3>
+                    <p>引入更多的動態環境光效果，升級毛玻璃算法，提供更加極致的視覺閱讀體驗。</p>
+                </div>
+            </div>
+            <div class="plan-item" style="transition-delay: 0.6s;">
+                <div class="plan-date">2026 Q4</div>
+                <div class="plan-card glass-card">
+                    <h3>Global Network Integration <span class="status-badge">Future</span></h3>
+                    <p>完善sankuai.asia與sanguai.site的舊站點再部署</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        window.onload = () => document.querySelectorAll('.plan-item').forEach(el => el.classList.add('active'));
+    </script>
+</body>
+</html>

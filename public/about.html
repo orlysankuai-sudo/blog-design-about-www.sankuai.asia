@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | DICK Network</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/assets/img/sanguai.jpg">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .about-content { max-width: 800px; margin: 0 auto; line-height: 2; }
+        .section-quote { font-family: 'Playfair Display', serif; font-size: 2rem; font-style: italic; border-left: none; padding: 40px 0; text-align: center; color: var(--text-main); }
+        .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px; }
+        .member-card { padding: 30px; text-align: center; }
+        .member-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 5px; }
+        .member-role { font-size: 0.8rem; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <nav class="navbar glass-nav">
+        <div class="nav-container"><div class="logo art-font" onclick="location.href='/'">DICK.</div></div>
+    </nav>
+    <main class="main-container fade-enter" id="main">
+        <header class="hero text-center">
+            <h1 class="art-font hero-title">About Sankuai Studio</h1>
+        </header>
+        <div class="about-content">
+            <div class="section-quote">"Logic is the beginning of wisdom, not the end."</div>
+            <p>叄夬文化工作室（香港叄夬文化工作室/SanGuai Inc.），總部位於山東青島。<br>曾經有一個舊站點：www.sanguai.site 這個站點更爲知名。<br>但已經因爲屎山代碼太多連我自己都看不懂而且域名到期便在2026/1/1停止運行。但是不管怎樣，現在我面臨高考，壓力很大，如同主頁面的文字所說，我只會從裏面不定期上傳我的一些思想與生活。<br>我獨自運營此站點，若有bug請多多包含。bug上報： sanguai1025@gmail.com</p>
+            <div class="team-grid">
+                <div class="member-card glass-card">
+                    <div class="member-name">Orly</div>
+                    <div class="member-role">Website Owner</div>
+                </div>
+                <div class="member-card glass-card">
+                    <div class="member-name">Sankuai Team</div>
+                    <div class="member-role">Developers</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        window.onload = () => document.getElementById('main').classList.add('fade-enter-active');
+    </script>
+</body>
+</html>
